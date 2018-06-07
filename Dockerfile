@@ -108,8 +108,8 @@ RUN \
  /tmp/ffmpeg.tar.bz2 -C \
 	/tmp/ffmpeg-src --strip-components=1 && \
  cd /tmp/ffmpeg-src && \
- for i in /tmp/patches/*.patch; do patch -p1 -i $i; done && \
- ./configure \
+  ./configure \
+  	--disable-doc \
 	--disable-debug \
 	--disable-static \
 	--disable-stripping \
