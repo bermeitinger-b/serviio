@@ -4,7 +4,7 @@ FROM lsiobase/alpine:3.7
 ARG BUILD_DATE
 ARG VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="sparklyballs"
+LABEL maintainer="Zimmermann Zsolt"
 
 # package versions
 ARG FFMPEG_VER="4.0"
