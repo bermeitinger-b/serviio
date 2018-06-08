@@ -1,162 +1,29 @@
-FROM lsiobase/alpine:3.7
+FROM jrottenberg/ffmpeg:4.0-alpine
 
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="Zimmermann Zsolt"
+MAINTAINER "Zimmermann Zsolt"
 
 # package versions
-ARG FFMPEG_VER="4.0"
 ARG SERVIIO_VER="1.9.2"
+ARG OVERLAY_VERSION="v1.21.4.0"
+ARG OVERLAY_ARCH="amd64"
 
 # environment settings
 ENV JAVA_HOME="/usr/bin/java"
 
-# copy patches
-COPY patches/ /tmp/patches/
-
-RUN \
- echo "**** change abc home folder ****" && \
- usermod -d /config/serviio abc && \
- echo "**** install build packages ****" && \
- apk add --no-cache --virtual=build-dependencies \
-	alsa-lib-dev \
-	bzip2-dev \
-	coreutils \
-	curl \
-	g++ \
-	gcc \
-	git \
-	gnutls-dev \
-	imlib2-dev \
-	jasper-dev \
-	jpeg-dev \
-	lame-dev \
-	lcms2-dev \
-	libass-dev \
-	libtheora-dev \
-	libva-dev \
-	libvorbis-dev \
-	libvpx-dev \
-	libvpx-dev \
-	libxfixes-dev \
-	make \
-	opus-dev \
-	perl \
-	rtmpdump-dev \
-	sdl-dev \
-	tar \
-	v4l-utils-dev \
-	x264-dev \
-	x265-dev \
-	xvidcore-dev \
-	yasm \
-	zlib-dev && \
- echo "**** install runtime packages ****" && \
- apk add --no-cache \
-	alsa-lib \
-	expat \
-	gmp \
-	gnutls \
-	jasper \
-	jpeg \
-	lame \
-	lcms2 \
-	libass \
-	libbz2 \
-	libdrm \
-	libffi \
-	libgcc \
-	libjpeg-turbo \
-	libogg \
-	libpciaccess \
-	librtmp \
-	libstdc++ \
-	libtasn1 \
-	libtheora \
-	libva \
-	libvorbis \
-	libvpx \
-	libx11 \
-	libxau \
-	libxcb \
-	libxdamage \
-	libxdmcp \
-	libxext \
-	libxfixes \
-	libxshmfence \
-	libxxf86vm \
-	mesa-gl \
-	mesa-glapi \
-	nettle \
-	openjdk8-jre \
-	opus \
-	p11-kit \
-	sdl \
-	ttf-dejavu \
-	v4l-utils-libs \
-	x264-libs \
-	x265 \
-	xvidcore && \
- echo "**** compile ffmpeg ****" && \
- mkdir -p /tmp/ffmpeg-src && \
- curl -o \
- /tmp/ffmpeg.tar.bz2 -L \
-	"http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VER}.tar.bz2" && \
- tar xf \
- /tmp/ffmpeg.tar.bz2 -C \
-	/tmp/ffmpeg-src --strip-components=1 && \
- cd /tmp/ffmpeg-src && \
-  ./configure \
-  	--disable-doc \
-	--disable-debug \
-	--disable-static \
-	--disable-stripping \
-	--enable-avfilter \
-	--enable-avresample \
-	--enable-gnutls \
-	--enable-gpl \
-	--enable-libass \
-	--enable-libmp3lame \
-	--enable-libopus \
-	--enable-librtmp \
-	--enable-libtheora \
-	--enable-libv4l2 \
-	--enable-libvorbis \
-	--enable-libvpx \
-	--enable-libx264 \
-	--enable-libx265 \
-	--enable-libxcb \
-	--enable-libxvid \
-	--enable-pic \
-	--enable-postproc \
-	--enable-pthreads \
-	--enable-shared \
-	--enable-vaapi \
-	--prefix=/usr && \
- make && \
- gcc -o tools/qt-faststart $CFLAGS tools/qt-faststart.c && \
- make doc/ffmpeg.1 doc/ffplay.1 doc/ffserver.1 && \
- make install install-man && \
- install -D -m755 tools/qt-faststart /usr/bin/qt-faststart && \
- echo "**** install serviio app ****" && \
- mkdir -p \
-	/app/serviio && \
- curl -o \
- /tmp/serviio.tar.gz -L \
-	http://download.serviio.org/releases/serviio-$SERVIIO_VER-linux.tar.gz && \
- tar xf /tmp/serviio.tar.gz -C \
-	/app/serviio --strip-components=1 && \
- echo "**** compile dcraw ****" && \
- cp /tmp/patches/dcraw.c /usr/bin/dcraw.c && \
- cd /usr/bin && \
- gcc -o dcraw -O4 dcraw.c -lm -ljasper -ljpeg -llcms2 && \
- echo "**** cleanup ****" && \
- apk del --purge \
-	build-dependencies && \
- rm -rf \
-	/tmp/*
+RUN apk add --no-cache curl tar bash ca-certificates coreutils shadow tzdata alsa-lib expat gmp  gnutls  jasper  jpeg  lame  lcms2  libass  libbz2  libdrm  libffi  libgcc \
+                       libjpeg-turbo libogg libpciaccess \librtmp libstdc++ libtasn1 libtheora libva libvorbis libvpx libx11 libxau libxcb libxdamage libxdmcp libxext libxfixes libxshmfence libxxf86vm mesa-gl \
+                       mesa-glapi nettle openjdk8-jre opus p11-kit sdl ttf-dejavu v4l-utils-libs x264-libs x265 xvidcore 
+RUN curl -o /tmp/s6-overlay.tar.gz -L "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz"
+RUN tar xfz /tmp/s6-overlay.tar.gz -C / 
+RUN groupmod -g 1000 users 
+RUN useradd -u 911 -U -d /config -s /bin/false abc 
+RUN usermod -G users abc 
+RUN mkdir -p /app /config /defaults 
+RUN usermod -d /config/serviio abc
+RUN mkdir -p /app/serviio 
+RUN curl -o /tmp/serviio.tar.gz -L "http://download.serviio.org/releases/serviio-${SERVIIO_VER}-linux.tar.gz"
+RUN tar xf /tmp/serviio.tar.gz -C /app/serviio --strip-components=1 
+RUN rm -rf /tmp/*
 
 # add local files
 COPY root/ /
