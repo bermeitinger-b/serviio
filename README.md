@@ -3,9 +3,9 @@
 [ffmpeg]: https://hub.docker.com/r/jrottenberg/ffmpeg/
 [lsio]: https://hub.docker.com/r/lsiocommunity/serviio/
 
-##Serviio with FFMPEG 4
+## Serviio with FFMPEG 4
 
-This container is based on ffmpeg[ffmpeg] image with modification applied from LinuxServer.io[lsio] Serviio image.
+This container is based on [FFMPEG docker image][ffmpeg] with modification applied from [LinuxServer.io][lsio] Serviio image.
 
 [Serviio][appurl] is a free media server. It allows you to stream your media files (music, video or images) to renderer devices (e.g. a TV set, Bluray player, games console or mobile phone) on your connected home network.
 
@@ -39,7 +39,7 @@ http://192.168.x.x:8080 would show you what's running INSIDE the container on po
 * `-e PGID` for GroupID - see below for explanation
 * `-e PUID` for UserID - see below for explanation
 
-It is based on ffmpeg[ffmpeg] with s6 overlay, for shell access whilst the container is running do `docker exec -it serviio /bin/bash`.
+It is based on [FFMPEG docker image][ffmpeg] with s6 overlay, for shell access whilst the container is running do `docker exec -it serviio /bin/bash`.
 
 ### User / Group Identifiers
 
