@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:4.0-alpine
+FROM jrottenberg/ffmpeg:snapshot-alpine
 
 MAINTAINER "Zimmermann Zsolt"
 
