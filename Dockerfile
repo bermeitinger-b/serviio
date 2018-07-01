@@ -9,6 +9,7 @@ ARG OVERLAY_ARCH="amd64"
 
 # environment settings
 ENV JAVA_HOME="/usr/bin/java"
+ENV SERVIIO_OPTS=" "
 
 COPY patches/ /tmp/patches/
 
