@@ -2,7 +2,7 @@
 
 exec \
 	s6-setuidgid abc /usr/bin/java \
-	-Xmx512M -Xms20M -XX:+UseG1GC -XX:GCTimeRatio=1 \
+	-Xmx$JAVA_MAX_MEM -Xms$JAVA_START_MEM -XX:+UseG1GC -XX:GCTimeRatio=1 \
 	-XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 \
 	-Djava.net.preferIPv4Stack=true -Djava.awt.headless=true \
 	-Dorg.restlet.engine.loggerFacadeClass=org.restlet.ext.slf4j.Slf4jLoggerFacade \

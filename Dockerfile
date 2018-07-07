@@ -11,6 +11,9 @@ ARG OVERLAY_ARCH="amd64"
 ENV JAVA_HOME="/usr/bin/java"
 ENV SERVIIO_OPTS=" "
 
+ENV JAVA_MAX_MEM=1024M
+ENV JAVA_START_MEM=20M
+
 COPY patches/ /tmp/patches/
 
 RUN apk add --no-cache --virtual=build-dependencies gcc jasper-dev jpeg-dev make libc-dev lcms2-dev
