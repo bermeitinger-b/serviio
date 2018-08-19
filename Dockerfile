@@ -43,7 +43,7 @@ ENTRYPOINT ["/init"]
 
 # ports and volumes
 EXPOSE 23423/tcp 23424/tcp 8895/tcp 1900/udp
-VOLUME /config /transcode
+VOLUME /config /transcode /run
 
 
 # alsa-lib expat gmp  gnutls  jasper  jpeg  lame  lcms2  libass  libbz2  libdrm  libffi  libgcc \
