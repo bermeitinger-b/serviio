@@ -3,8 +3,8 @@ FROM jrottenberg/ffmpeg:snapshot-alpine
 MAINTAINER "Zimmermann Zsolt"
 
 # package versions
-ARG SERVIIO_VER="1.9.2"
-ARG OVERLAY_VERSION="v1.21.4.0"
+ARG SERVIIO_VER="1.10"
+ARG OVERLAY_VERSION="v1.21.7.0"
 ARG OVERLAY_ARCH="amd64"
 
 # environment settings
