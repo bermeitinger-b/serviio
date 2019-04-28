@@ -37,9 +37,22 @@ CONF=(  "./configure --prefix=${PREF}"
 	"./configure --prefix=${PREF}"
 	"./configure --enable-static --disable-opencl --enable-pic --prefix=${PREF}"
 	"cd build/generic && ./configure --enable-static --prefix=${PREF}"
-	"./configure --enable-gpl --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libtheora --enable-libvorbis --enable-libx264 --enable-nonfree --enable-postproc --enable-version3 --enable-librtmp --enable-libxvid --enable-libass --enable-libfdk_aac --disable-debug --disable-doc --disable-ffplay --prefix=${PREF}"
+        "./configure --enable-static --disable-shared --disable-ffplay --disable-ffserver --enable-libmp3lame --enable-libass --enable-librtmp --enable-fontconfig --enable-libfreetype --enable-zlib  --enable-libx264 --enable-libspeex --enable-runtime-cpudetect --enable-gpl --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libtheora --enable-libvorbis --enable-nonfree --enable-postproc --enable-version3 --enable-libxvid --enable-libfdk_aac --disable-debug --disable-doc --prefix=${PREF}"
 )
 
+## Additional FFMPEG configs
+#--enable-libopencore-amrnb 
+#--enable-libopencore-amrwb 
+#--enable-libtheora 
+#--enable-libvorbis 
+#--enable-nonfree 
+#--enable-postproc 
+#--enable-version3 
+#--enable-libxvid 
+#--enable-libfdk_aac 
+#--disable-debug 
+#--disable-doc "
+ 
 apk add --no-cache --virtual=build-dependencies build-base gcc jasper-dev jpeg-dev libc-dev lcms2-dev openssl-dev linux-headers nasm fribidi-dev expat-dev
 
 # we need edge/testing for libfdk_aac
