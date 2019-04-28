@@ -10,14 +10,14 @@ RUN apk --no-cache update && apk --no-cache upgrade && apk add bash x265 ca-cert
 
 ##################################################################################################################################
 
-FROM anapsix/alpine-java:8u181b13_server-jre
+FROM anapsix/alpine-java:8u191b12_server-jre
 
 # Serviio download
 ARG SERVIIO_VERSION="1.10.1"
 ARG SERVIIO_URL="http://download.serviio.org/releases/serviio-${SERVIIO_VERSION}-linux.tar.gz"
 
 # Overlay download
-ARG OVERLAY_VERSION="v1.21.7.0"
+ARG OVERLAY_VERSION="v1.21.8.0"
 ARG OVERLAY_ARCH="amd64"
 ARG OVERLAY_URL="https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz"
 
