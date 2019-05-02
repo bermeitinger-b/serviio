@@ -1,17 +1,14 @@
 [appurl]: http://serviio.org/
 [hub]: https://hub.docker.com/r/cina/serviio/
-[ffmpeg]: https://hub.docker.com/r/jrottenberg/ffmpeg/
 [lsio]: https://hub.docker.com/r/lsiocommunity/serviio/
 ## Serviio
 **[Serviio][appurl] is a free media server. It allows you to stream your media files (music, video or images) to renderer devices (e.g. a TV set, Bluray player, games console or mobile phone) on your connected home network.**
 This container is made by the vision of originality and compatibilty. This build was designed to follow [zip](http://forum.serviio.org/memberlist.php?mode=viewprofile&u=2&sid=47fff9ad505fde0bc0295130098c9a57)'s method to build windows installer transferred to Linux.
-Source of code and information:
-- [Serviio wiki page of building from source code](http://wiki.serviio.org/doku.php?id=build_ffmpeg_linux) 
-- [Serviio download page](http://www.serviio.org/download)
-- Source codes from http://download.serviio.org/opensource "repository".
-- S6 layer and setup sampled from [lsio serviio][lsio] image - thanks for their team.
-
-Image is based on [anapsix java image](https://hub.docker.com/r/anapsix/alpine-java).
+The image was build from the following images:
+- Image is based on [anapsix/alpine-java:8u191b12_server-jre](https://hub.docker.com/r/anapsix/alpine-java) image.
+- FFMPEG is copied from [jrottenberg/ffmpeg:3.4-scrath](https://hub.docker.com/r/jrottenberg/ffmpeg) image.
+- DCRAW is copied from [ayoburgess/dcraw:latest](https://hub.docker.com/r/ayoburgess/dcraw) image.
+- S6 layer and setup from their [github repo](https://github.com/just-containers/s6-overlay).
 ## Usage
     docker create --name=serviio \
     -v /etc/localtime:/etc/localtime:ro \
@@ -32,7 +29,7 @@ Image is based on [anapsix java image](https://hub.docker.com/r/anapsix/alpine-j
     
     services:
       serviio:
-        image: cina/serviio:test
+        image: cina/serviio:latest
         container_name: serviio
         volumes:
           - serviio-config:/config 
@@ -58,7 +55,7 @@ Image is based on [anapsix java image](https://hub.docker.com/r/anapsix/alpine-j
 * `-e SERVIIO_OPTS` for additional java runtime options - see this [page](http://www.serviio.org/component/content/article/10-uncategorised/43-supported-system-properties)
 ### User / Group Identifiers
 
-Sometimes when using data volumes (`-v` flags) permissions issues can arise between the host OS and the container. We avoid this issue by allowing you to specify the user `PUID` and group `PGID`. Ensure the data volume directory on the host is owned by the same user you specify and it will "just work" ™.
+Sometimes when using data volumes (`-v` flags) permissions issues can arise between the host OS and the container. We avoid this issue by allowing you to specify the user `PUID` and group `PGID`. Ensure the data volume directory on the host is owned by the same user you specify.
 In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as below:
 
     $ id <dockeruser>
