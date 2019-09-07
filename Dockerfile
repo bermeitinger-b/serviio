@@ -1,7 +1,7 @@
-FROM anapsix/alpine-java:8u191b12_server-jre
+FROM openjdk:8-jre-alpine
 
 # Serviio download
-ARG SERVIIO_VERSION="1.10.1"
+ARG SERVIIO_VERSION="2.0"
 ARG SERVIIO_URL="http://download.serviio.org/releases/serviio-${SERVIIO_VERSION}-linux.tar.gz"
 
 # Overlay download
@@ -15,8 +15,9 @@ ENV PS1="$(whoami)@$(hostname):$(pwd)$ " \
 HOME="/root" \
 TERM="xterm"
 
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing bash curl expat gmp gnutls jasper jpeg libbz2 libdrm libffi lcms2\ 
-    libjpeg-turbo tar ca-certificates coreutils shadow tzdata \ 
+RUN apk add --no-cache \
+        bash curl expat gmp gnutls jasper jpeg libbz2 libdrm libffi lcms2\ 
+        libjpeg-turbo tar ca-certificates coreutils shadow tzdata \ 
     && curl -o /tmp/${OVERLAY_URL##*/} -L ${OVERLAY_URL} \
     && tar xfz /tmp/${OVERLAY_URL##*/} -C / \
     && groupmod -g 1000 users \
@@ -29,8 +30,7 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing bash
     && tar xfz /tmp/${SERVIIO_URL##*/} -C /app/serviio --strip-components=1 \
     && rm -rf /tmp/* 
 
-COPY --from=jrottenberg/ffmpeg:3.4-scratch / /usr/
-COPY --from=ayoburgess/dcraw:latest /opt/dcraw/bin/dcraw /usr/bin/dcraw
+COPY --from=jrottenberg/ffmpeg:4.1-scratch / /usr/
 COPY log4j.xml /config/serviio/config/
 COPY root/ /
 EXPOSE 23423/tcp 23424/tcp 8895/tcp 1900/udp

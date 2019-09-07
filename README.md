@@ -5,8 +5,8 @@
 **[Serviio][appurl] is a free media server. It allows you to stream your media files (music, video or images) to renderer devices (e.g. a TV set, Bluray player, games console or mobile phone) on your connected home network.**
 This container is made by the vision of originality and compatibilty. This build was designed to follow [zip](http://forum.serviio.org/memberlist.php?mode=viewprofile&u=2&sid=47fff9ad505fde0bc0295130098c9a57)'s method to build windows installer transferred to Linux.
 The image was build from the following images:
-- Image is based on [anapsix/alpine-java:8u191b12_server-jre](https://hub.docker.com/r/anapsix/alpine-java) image.
-- FFMPEG is copied from [jrottenberg/ffmpeg:3.4-scrath](https://hub.docker.com/r/jrottenberg/ffmpeg) image.
+- Image is based on [openjdk/8-jre-alpine](https://hub.docker.com/_/openjdk) image.
+- FFMPEG is copied from [jrottenberg/ffmpeg:4.1-scrath](https://hub.docker.com/r/jrottenberg/ffmpeg) image.
 - DCRAW is copied from [ayoburgess/dcraw:latest](https://hub.docker.com/r/ayoburgess/dcraw) image.
 - S6 layer and setup from their [github repo](https://github.com/just-containers/s6-overlay).
 ## Usage
