@@ -30,7 +30,7 @@ RUN apk add --no-cache \
     && tar xfz /tmp/${SERVIIO_URL##*/} -C /app/serviio --strip-components=1 \
     && rm -rf /tmp/* 
 
-COPY --from=jrottenberg/ffmpeg:4.1-scratch / /usr/
+COPY --from=jrottenberg/ffmpeg:4.2-scratch / /usr/
 COPY log4j.xml /config/serviio/config/
 COPY root/ /
 EXPOSE 23423/tcp 23424/tcp 8895/tcp 1900/udp
