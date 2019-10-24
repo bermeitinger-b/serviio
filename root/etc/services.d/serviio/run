@@ -8,5 +8,4 @@ exec s6-setuidgid abc java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemory
 	-Dderby.system.home=/config/serviio/library \
 	-Dserviio.home=/app/serviio -Dplugins.location=/config/serviio \
 	-Dserviio.defaultTranscodeFolder=/transcode -Dffmpeg.location=/usr/bin/ffmpeg \
-	-Ddcraw.location=/usr/bin/dcraw -classpath /app/serviio/lib/*:/config/serviio/config \
         $SERVIIO_OPTS org.serviio.MediaServer
