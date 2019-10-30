@@ -1,64 +1,35 @@
-[appurl]: http://serviio.org/
-[hub]: https://hub.docker.com/r/cina/serviio/
-[lsio]: https://hub.docker.com/r/lsiocommunity/serviio/
-## Serviio
-**[Serviio][appurl] is a free media server. It allows you to stream your media files (music, video or images) to renderer devices (e.g. a TV set, Bluray player, games console or mobile phone) on your connected home network.**
+# Serviio
+
+**[Serviio](appurl) is a free media server. It allows you to stream your media files (music, video or images) to renderer devices (e.g. a TV set, Bluray player, games console or mobile phone) on your connected home network.**
 This container is made by the vision of originality and compatibilty. This build was designed to follow [zip](http://forum.serviio.org/memberlist.php?mode=viewprofile&u=2&sid=47fff9ad505fde0bc0295130098c9a57)'s method to build windows installer transferred to Linux.
+
 The image was build from the following images:
+
 - Image is based on [openjdk/8-jre-alpine](https://hub.docker.com/_/openjdk) image.
 - FFMPEG is copied from [jrottenberg/ffmpeg:4.2-scratch](https://hub.docker.com/r/jrottenberg/ffmpeg) image.
-- S6 layer and setup from their [github repo](https://github.com/just-containers/s6-overlay).
+
 ## Usage
-    docker create --name=serviio \
+
+**Remember to create the volume folders `/config`, `/media`, `/transcoding`, `/app/serviio/log` on the host prior to running docker**
+
+```bash
+  docker create --name=serviio \
     -v /etc/localtime:/etc/localtime:ro \
     -v <path to data>:/config \
-    -v <path to media>:/media \
+    -v <path to media>:/media:ro \
     -v <path for transcoding>:/transcode \
-    -e PGID=<gid> -e PUID=<uid> \
-    -e SERVIIO_OPTS='serviio.cdsAnonymousAccess=true' \
-    --net=host cina/serviio
-## docker-compose.yml
-    version: '2.4'
-    
-    volumes:
-      serviio-config: 
-        external: true
-      serviio-start:
-        external: true
-    
-    services:
-      serviio:
-        image: cina/serviio:latest
-        container_name: serviio
-        volumes:
-          - serviio-config:/config 
-          - /tmp:/transcode 
-          - /etc/localtime:/etc/localtime:ro 
-          - /media:/media 
-          - /mnt/storage/media:/mnt/storage/media 
-        network_mode: 'host'
-        mem_limit: 2gb
-        environment:
-          - 'SERVIIO_OPTS=-Dserviio.cdsAnonymousAccess=true'
-          - 'PGID=996' 
-          - 'PUID=997' 
-        restart: unless-stopped
+    -v <path for logging>:/app/serviio/log \
+    --user "$(id -u):$(id -g)" \
+    --network="host" \
+    bermeitingerb/serviio:latest
+```
+
 ## Parameters
-* `--net=host` - Only works with host networking (Needs UDP broadcast)
-* `-v /etc/localtime` for timesync - *optional*
-* `-v /config` - Configuration files
-* `-v /media` - Media files
-* `-v /transcode` - Transcode location
-* `-e PGID` for GroupID - see below for explanation
-* `-e PUID` for UserID - see below for explanation
-* `-e SERVIIO_OPTS` for additional java runtime options - see this [page](http://www.serviio.org/component/content/article/10-uncategorised/43-supported-system-properties)
-### User / Group Identifiers
-
-Sometimes when using data volumes (`-v` flags) permissions issues can arise between the host OS and the container. We avoid this issue by allowing you to specify the user `PUID` and group `PGID`. Ensure the data volume directory on the host is owned by the same user you specify.
-In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as below:
-
-    $ id <dockeruser>
-    uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
+- `--network="host"` - Only works with host networking (Needs UDP broadcast)
+- `-v /etc/localtime` for timesync - *optional*
+- `-v /config` - Configuration files
+- `-v /media` - Media files
+- `-v /transcode` - Transcode location
 
 ## Setting up the application
 
@@ -72,5 +43,6 @@ Setting a mapping for transcoding `-v /transcode`  ensures that the container do
 - Shell access whilst the container is running: `docker exec -it serviio /bin/bash`
 - To monitor the logs of the container in realtime `docker logs -f serviio`.
 
-
-
+## Sources
+- First version: [LinuxServer](https://hub.docker.com/r/lsiocommunity/serviio/) (deprecated)
+- Clone: [cina](https://hub.docker.com/r/cina/serviio/)
