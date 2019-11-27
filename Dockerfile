@@ -3,14 +3,17 @@ FROM openjdk:8-jre-alpine
 # Serviio download
 ARG SERVIIO_VERSION="2.0"
 ARG SERVIIO_URL="http://download.serviio.org/releases/serviio-${SERVIIO_VERSION}-linux.tar.gz"
+ARG SERVIIO_MD5="026f2dea2caf571af840bba28a735e6a"
 
 RUN apk add --no-cache \
-        bash curl expat gmp gnutls jasper jpeg libbz2 libdrm libffi lcms2\ 
-        libjpeg-turbo tar ca-certificates coreutils shadow tzdata \ 
-    && mkdir -p /app /config /defaults \
+        bash curl expat gmp gnutls jasper jpeg libbz2 libdrm libffi lcms2 \
+        libjpeg-turbo tar ca-certificates coreutils shadow tzdata
+
+RUN mkdir -p /app /config /defaults \
     && mkdir -p /app/serviio \
-    && curl -o /tmp/${SERVIIO_URL##*/} -L ${SERVIIO_URL} \
-    && tar xfz /tmp/${SERVIIO_URL##*/} -C /app/serviio --strip-components=1 \
+    && curl -o /tmp/serviio.tar.gz -L ${SERVIIO_URL} \
+    && [[ ${SERVIIO_MD5} == $(md5sum /tmp/serviio.tar.gz | cut -d " " -f1) ]] \
+    && tar xfz /tmp/serviio.tar.gz -C /app/serviio --strip-components=1 \
     && rm -rf /tmp/* 
 
 COPY --from=jrottenberg/ffmpeg:4.2-scratch / /usr/
