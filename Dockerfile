@@ -1,9 +1,9 @@
 FROM openjdk:8-jre
 
 # Serviio download
-ARG SERVIIO_VERSION="2.0"
+ARG SERVIIO_VERSION="2.1"
 ARG SERVIIO_URL="http://download.serviio.org/releases/serviio-${SERVIIO_VERSION}-linux.tar.gz"
-ARG SERVIIO_MD5="026f2dea2caf571af840bba28a735e6a"
+ARG SERVIIO_MD5="31b82ca2cb472f7c055df933bf497690"
 
 RUN apt-get update
 RUN apt-get install -y \
