@@ -1,0 +1,8 @@
+FROM bermeitingerb/serviio
+
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get -y full-upgrade && \
+    apt-get -y autoclean && \
+    apt-get -y autoremove && \
+    rm -r /var/cache/apt/*
