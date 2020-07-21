@@ -1,4 +1,4 @@
-FROM bermeitingerb/serviio
+FROM bermeitingerb/serviio:latest
 
 RUN apt-get update && \
     apt-get -y upgrade && \
