@@ -5,8 +5,7 @@ This container is made by the vision of originality and compatibilty. This build
 
 The image was build from the following images:
 
-- Image is based on [openjdk/8-jre-alpine](https://hub.docker.com/_/openjdk) image.
-- FFMPEG is copied from [jrottenberg/ffmpeg:4.2-scratch](https://hub.docker.com/r/jrottenberg/ffmpeg) image.
+- Image is based on [openjdk/8-jre](https://hub.docker.com/_/openjdk) image.
 
 ## Usage
 
@@ -45,4 +44,4 @@ Setting a mapping for transcoding `-v /transcode`  ensures that the container do
 
 ## Sources
 - First version: [LinuxServer](https://hub.docker.com/r/lsiocommunity/serviio/) (deprecated)
-- Clone: [cina](https://hub.docker.com/r/cina/serviio/)
+- Fork: [cina](https://hub.docker.com/r/cina/serviio/)
