@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-alpine
+FROM openjdk:alpine
 
 # Serviio download
 ENV SERVIIO_VERSION="2.1"
